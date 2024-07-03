@@ -14,6 +14,8 @@ app.config.from_object(Config)
 initialise_database(app)
 initialise_scheduled_jobs(app)
 
+app.logger.setLevel(level=logging.INFO)
+
 logging.basicConfig(level=logging.INFO)
 
 @app.route("/")
