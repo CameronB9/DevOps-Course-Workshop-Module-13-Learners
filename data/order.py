@@ -3,10 +3,13 @@ from sqlalchemy.dialects.mssql import DATETIMEOFFSET
 from datetime import datetime, timedelta
 from pytz import utc, timezone
 
+from typing import Literal
+
 local_timezone = timezone("Europe/London")
 
 COMPLETE = 'Complete'
 QUEUED = 'Queued'
+FAILED = 'Failed'
 
 class Order(db.Model):
     __tablename__ = "orders"
@@ -37,6 +40,7 @@ class Order(db.Model):
     def date_processed_local(self):
         return self.date_processed.astimezone(local_timezone)
 
-    def set_as_processed(self):
+    def set_status(self, status: Literal['Complete', 'Failed']):
         self.date_processed = datetime.now(tz=utc)
-        self.status = COMPLETE
+        self.status = status
+
