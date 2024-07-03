@@ -1,3 +1,4 @@
+from flask import Flask
 from data.database import save_order, get_all_orders
 from products import create_product_download
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -15,7 +16,7 @@ def initialise_scheduled_jobs(app):
     scheduler.start()
 
 
-def process_orders(app):
+def process_orders(app: Flask):
     with app.app_context():
         orders = get_queue_of_orders_to_process()
         if len(orders) == 0:
@@ -33,6 +34,8 @@ def process_orders(app):
             app.config["FINANCE_PACKAGE_URL"] + "/ProcessPayment",
             json=payload
         )
+
+        app.logger.info(f'Response from endpoint: {response.text}')
 
         response.raise_for_status()
 
