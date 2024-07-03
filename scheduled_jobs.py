@@ -50,6 +50,8 @@ def process_orders(app: Flask):
         except:
             app.logger.exception(f'Error processing order {order.id}')
             status = FAILED
+        
+        app.logger.info(f'Marking order {order.id} as {status}')
 
 
         order.set_status(status)
