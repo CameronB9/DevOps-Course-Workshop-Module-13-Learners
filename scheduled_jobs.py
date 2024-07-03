@@ -24,6 +24,9 @@ def process_orders(app: Flask):
 
         order = orders[0]
 
+        app.logger.info(f'Date placed: {order.date_placed.isoformat()}')
+        app.logger.info(f'Date placed local: {order.date_placed_local.isoformat()}')
+
         payload = {
             "product": order.product,
             "customer": order.customer,
