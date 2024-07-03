@@ -38,7 +38,7 @@ def process_orders(app: Flask):
                 json=payload
             )
         except:
-            app.logger.error(f'Error processing order {order.id}')
+            app.logger.exception(f'Error processing order {order.id}')
 
         app.logger.info(f'Response from endpoint: {response.text}')
 
