@@ -12,7 +12,6 @@ jobs:
         DOCKERHUB_TOKEN: '${{ secrets.DOCKERHUB_TOKEN }}'
         AZURE_WEBHOOK: '${{ secrets.AZURE_WEBHOOK }}'
     # DECIDE WHETHER YOU WANT A BRANCH CHECK - if so remove the other "if"
-    # if: github.ref == 'refs/heads/master'
     if: github.repository != 'corndeladmin/DevOps-Course-Workshop-Module-13-Learners'
     steps:
       - name: test
