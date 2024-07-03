@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 from datetime import datetime, timezone
 import logging
+logging.basicConfig(level=logging.INFO)
 
 from werkzeug.utils import redirect
 from flask_config import Config
@@ -14,9 +15,6 @@ app.config.from_object(Config)
 initialise_database(app)
 initialise_scheduled_jobs(app)
 
-app.logger.setLevel(level=logging.INFO)
-
-logging.basicConfig(level=logging.INFO)
 
 @app.route("/")
 def index():
