@@ -32,11 +32,13 @@ def process_orders(app: Flask):
             "customer": order.customer,
             "date": order.date_placed_local.isoformat(),
         }
-
-        response = requests.post(
-            app.config["FINANCE_PACKAGE_URL"] + "/ProcessPayment",
-            json=payload
-        )
+        try:
+            response = requests.post(
+                app.config["FINANCE_PACKAGE_URL"] + "/ProcessPayment",
+                json=payload
+            )
+        except:
+            app.logger.error(f'Error processing order {order.id}')
 
         app.logger.info(f'Response from endpoint: {response.text}')
 
