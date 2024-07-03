@@ -32,17 +32,17 @@ def process_orders(app: Flask):
             "customer": order.customer,
             "date": order.date_placed_local.isoformat(),
         }
-        try:
-            response = requests.post(
-                app.config["FINANCE_PACKAGE_URL"] + "/ProcessPayment",
-                json=payload
-            )
-        except:
-            app.logger.exception(f'Error processing order {order.id}')
+        response = requests.post(
+            app.config["FINANCE_PACKAGE_URL"] + "/ProcessPayment",
+            json=payload
+        )
 
         app.logger.info(f'Response from endpoint: {response.text}')
 
-        response.raise_for_status()
+        try:
+            response.raise_for_status()
+        except:
+            app.logger.exception(f'Error processing order {order.id}')
 
         order.set_as_processed()
         save_order(order)
